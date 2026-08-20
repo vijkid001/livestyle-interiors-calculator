@@ -3,171 +3,153 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>LiveStyle Interiors - Smart Estimation Platform</title>
+  <title>LiveStyle Interiors - Complete 3 BHK Estimator</title>
   <link rel="manifest" href="manifest.json"/>
   <meta name="theme-color" content="#222222"/>
-
   <link rel="stylesheet" href="style.css"/>
-
-
 </head>
-
 <body>
 
 <div class="container">
+  <h1>LiveStyle Interiors</h1>
+  <p class="sub-title">Complete 3 BHK / Home Interior Estimator</p>
+
+  <label>Select Estimation Type</label>
+  <select id="calcType" onchange="toggleSections()">
+    <option value="default">Default (Preset 3 BHK Scope)</option>
+    <option value="custom">Customized (Custom Dimensions)</option>
+  </select>
+
+  <!-- DEFAULT SECTION -->
+  <div id="defaultSection">
+    <h2>Default House Configuration</h2>
+
+    <label>Select House Type</label>
+    <select id="bhkType">
+      <option value="2">2 BHK</option>
+      <option value="3" selected>3 BHK</option>
+      <option value="4">4 BHK</option>
+      <option value="5">5 BHK</option>
+    </select>
+
+    <label>Quality Grade</label>
+    <select id="defaultMaterial">
+      <option value="Ultra">Ultra (Hettich / Premium Laminate & Acrylic)</option>
+      <option value="Good" selected>Good (Commercial Plywood & Standard Finish)</option>
+      <option value="Economy">Economy (Basic Budget Grade)</option>
+    </select>
+
+<h3>Select Scope Items to Include:</h3>
+
+<!-- SELECT ALL -->
+<div style="margin: 15px 0 10px 0; padding: 12px; background: #f0f0f0; border-radius: 8px;">
+  <label style="font-weight: bold;">
+    <input
+      type="checkbox"
+      id="selectAllScope"
+      onchange="toggleSelectAllScope()"
+    >
+    Select All
+  </label>
+</div>
+
+<!-- INDIVIDUAL ITEMS -->
+<div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; margin: 15px 0;">
+
+  <label>
+    <input type="checkbox" class="scope-item" id="incWardrobes" onchange="updateSelectAllState()">
+    Bedroom Wardrobes & Lofts
+  </label>
+
+  <label>
+    <input type="checkbox" class="scope-item" id="incKitchen" onchange="updateSelectAllState()">
+    Modular Kitchen & Storage
+  </label>
+
+  <label>
+    <input type="checkbox" class="scope-item" id="incTVUnit" onchange="updateSelectAllState()">
+    TV Unit & Living Wall Panel
+  </label>
+
+  <label>
+    <input type="checkbox" class="scope-item" id="incPooja" onchange="updateSelectAllState()">
+    Pooja Unit / Mandir Setup
+  </label>
+
+  <label>
+    <input type="checkbox" class="scope-item" id="incFalseCeiling" onchange="updateSelectAllState()">
+    POP / Gypsum False Ceiling
+  </label>
+
+  <label>
+    <input type="checkbox" class="scope-item" id="incPainting" onchange="updateSelectAllState()">
+    Complete Painting & Wallpaper
+  </label>
+
+  <label>
+    <input type="checkbox" class="scope-item" id="incElectrical" onchange="updateSelectAllState()">
+    Electrical Point Modifications
+  </label>
+
+  <label>
+    <input type="checkbox" class="scope-item" id="incFurniture" onchange="updateSelectAllState()">
+    Loose Furniture (Sofa, Beds, Dining)
+  </label>
+
+</div>
+
+  <!-- CUSTOM SECTION -->
+  <div id="customSection" class="hidden">
+    <h2>Customized Woodwork Scope</h2>
+    <label>How Many Rooms/Zones?</label>
+    <input type="number" id="roomCount" min="1" placeholder="e.g. 3">
+    <button onclick="generateRooms()">Generate Rooms</button>
+
+    <div id="roomsContainer"></div>
+
+    <label>Select Material Grade</label>
+    <select id="customMaterial">
+      <option value="Ultra">Ultra</option>
+      <option value="Good" selected>Good</option>
+      <option value="Economy">Economy</option>
+    </select>
+  </div>
+
+  <button onclick="calculateEstimate()">Calculate Total Scope Estimate</button>
+
+  <!-- RESULT -->
+  <div class="result">
+    <h2>Estimation Summary</h2>
+    <div class="summary-box">
+      <p><strong>Total Woodwork Sq Ft:</strong> <span id="totalSqft">0</span></p>
+      <p><strong>Woodwork Material Cost:</strong> ₹ <span id="materialCost">0</span></p>
+      <p><strong>Woodwork Labour Cost:</strong> ₹ <span id="labourCost">0</span></p>
+      <p><strong>Turnkey Grand Total:</strong> ₹ <span id="totalCost">0</span></p>
+    </div>
+    <hr>
+    <h2>Itemized Scope Breakdown</h2>
+    <div id="calculationBreakdown"></div>
+  </div>
+
+  <div class="container">
 
   <h1>LiveStyle Interiors</h1>
 
   <p class="sub-title">
-    Smart Interior Estimation Platform
+    Smart Turnkey Interior Estimation Platform
   </p>
 
+  <!-- VISIT COUNTER BADGE -->
+  <div style="text-align: center; margin-bottom: 20px;">
+    <span style="background: #e0e0e0; padding: 6px 14px; border-radius: 20px; font-size: 14px; font-weight: bold; color: #333;">
+      👀 Total Visits: <span id="visitCount">Loading...</span>
+    </span>
+  </div>
+
   <label>Select Estimation Type</label>
-
-  <select id="calcType" onchange="toggleSections()">
-    <option value="default">Default</option>
-    <option value="custom">Customized</option>
-  </select>
-
-  <!-- DEFAULT SECTION -->
-
-  <div id="defaultSection">
-
-    <h2>Default Estimation</h2>
-
-    <label>Select House Type</label>
-
-    <select id="bhkType">
-      <option value="2">2 BHK</option>
-      <option value="3">3 BHK</option>
-      <option value="4">4 BHK</option>
-      <option value="5">5 BHK</option>
-      <option value="6">Villa</option>
-    </select>
-
-    <label>Laminate %</label>
-    <input type="number" id="defaultLaminate" value="40">
-
-    <label>Acrylic %</label>
-    <input type="number" id="defaultAcrylic" value="30">
-
-    <label>Glass %</label>
-    <input type="number" id="defaultGlass" value="20">
-
-    <label>Lights %</label>
-    <input type="number" id="defaultLights" value="10">
-
-    <label>Select Base Material</label>
-
-    <select id="defaultMaterial">
-      <option value="Ultra">Ultra</option>
-      <option value="Good">Good</option>
-      <option value="Economy">Economy</option>
-    </select>
-	
-	 <label>Kitchen Included?</label>
-
-	<div style="display:flex;gap:20px;margin-top:10px;">
-	  <label>
-		<input type="radio" name="defaultKitchen" value="yes" checked>
-		With Kitchen
-	  </label>
-
-	  <label>
-		<input type="radio" name="defaultKitchen" value="no">
-		Without Kitchen
-	  </label>
-	</div>
-
-  </div>
-
-  <!-- CUSTOMIZED SECTION -->
-
-  <div id="customSection" class="hidden">
-
-    <h2>Customized Estimation</h2>
-
-    <label>How Many Rooms?</label>
-
-    <input type="number" id="roomCount" min="1">
-
-    <button onclick="generateRooms()">
-      Generate Rooms
-    </button>
-
-    <div id="roomsContainer"></div>
-
-    <label>Select Base Material</label>
-
-    <select id="customMaterial">
-      <option value="Ultra">Ultra</option>
-      <option value="Good">Good</option>
-      <option value="Economy">Economy</option>
-    </select>
-	
-	label>Kitchen Included?</label>
-
-	<div style="display:flex;gap:20px;margin-top:10px;">
-	  <label>
-		<input type="radio" name="customKitchen" value="yes" checked>
-		With Kitchen
-	  </label>
-
-	  <label>
-		<input type="radio" name="customKitchen" value="no">
-		Without Kitchen
-	  </label>
-	</div>
-
-  </div>
-
-  <button onclick="calculateEstimate()">
-    Calculate Estimation
-  </button>
-
-  <!-- RESULT -->
-
-  <div class="result">
-
-    <h2>Estimation Result</h2>
-
-    <div class="summary-box">
-
-      <p>
-        <strong>Total Sq Ft:</strong>
-        <span id="totalSqft">0</span>
-      </p>
-
-      <p>
-        <strong>Material Cost:</strong>
-        ₹ <span id="materialCost">0</span>
-      </p>
-
-      <p>
-        <strong>Labour Cost:</strong>
-        ₹ <span id="labourCost">0</span>
-      </p>
-
-      <p>
-        <strong>Total Cost:</strong>
-        ₹ <span id="totalCost">0</span>
-      </p>
-
-    </div>
-
-    <hr>
-
-    <h2>Calculation Breakdown</h2>
-
-    <div id="calculationBreakdown"></div>
-
-  </div>
-
 </div>
 
 <script src="app.js"></script>
-
-
 <script>
   if ("serviceWorker" in navigator) {
     navigator.serviceWorker.register("./service-worker.js");

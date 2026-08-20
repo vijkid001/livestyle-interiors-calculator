@@ -1,4 +1,4 @@
-const CACHE_NAME = "livestyle-v1";
+const CACHE_NAME = "livestyle-v6";
 const APP_FILES = [
   "./",
   "./index.html",
