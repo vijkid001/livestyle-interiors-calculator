@@ -3,175 +3,162 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>LiveStyle Interiors - Smart Estimation Platform</title>
+  <title>LiveStyle Interiors — Home Interior Estimator</title>
   <link rel="manifest" href="manifest.json"/>
-  <meta name="theme-color" content="#222222"/>
-
+  <meta name="theme-color" content="#0b1118"/>
+  <meta name="description" content="Plan your home interiors and get a tailored turnkey estimate with LiveStyle Interiors."/>
   <link rel="stylesheet" href="style.css"/>
-
-
 </head>
-
 <body>
-
-<div class="container">
-
-  <h1>LiveStyle Interiors</h1>
-
-  <p class="sub-title">
-    Smart Interior Estimation Platform
-  </p>
-
-  <label>Select Estimation Type</label>
-
-  <select id="calcType" onchange="toggleSections()">
-    <option value="default">Default</option>
-    <option value="custom">Customized</option>
-  </select>
-
-  <!-- DEFAULT SECTION -->
-
-  <div id="defaultSection">
-
-    <h2>Default Estimation</h2>
-
-    <label>Select House Type</label>
-
-    <select id="bhkType">
-      <option value="2">2 BHK</option>
-      <option value="3">3 BHK</option>
-      <option value="4">4 BHK</option>
-      <option value="5">5 BHK</option>
-      <option value="6">Villa</option>
-    </select>
-
-    <label>Laminate %</label>
-    <input type="number" id="defaultLaminate" value="40">
-
-    <label>Acrylic %</label>
-    <input type="number" id="defaultAcrylic" value="30">
-
-    <label>Glass %</label>
-    <input type="number" id="defaultGlass" value="20">
-
-    <label>Lights %</label>
-    <input type="number" id="defaultLights" value="10">
-
-    <label>Select Base Material</label>
-
-    <select id="defaultMaterial">
-      <option value="Ultra">Ultra</option>
-      <option value="Good">Good</option>
-      <option value="Economy">Economy</option>
-    </select>
-	
-	 <label>Kitchen Included?</label>
-
-	<div style="display:flex;gap:20px;margin-top:10px;">
-	  <label>
-		<input type="radio" name="defaultKitchen" value="yes" checked>
-		With Kitchen
-	  </label>
-
-	  <label>
-		<input type="radio" name="defaultKitchen" value="no">
-		Without Kitchen
-	  </label>
-	</div>
-
-  </div>
-
-  <!-- CUSTOMIZED SECTION -->
-
-  <div id="customSection" class="hidden">
-
-    <h2>Customized Estimation</h2>
-
-    <label>How Many Rooms?</label>
-
-    <input type="number" id="roomCount" min="1">
-
-    <button onclick="generateRooms()">
-      Generate Rooms
-    </button>
-
-    <div id="roomsContainer"></div>
-
-    <label>Select Base Material</label>
-
-    <select id="customMaterial">
-      <option value="Ultra">Ultra</option>
-      <option value="Good">Good</option>
-      <option value="Economy">Economy</option>
-    </select>
-	
-	label>Kitchen Included?</label>
-
-	<div style="display:flex;gap:20px;margin-top:10px;">
-	  <label>
-		<input type="radio" name="customKitchen" value="yes" checked>
-		With Kitchen
-	  </label>
-
-	  <label>
-		<input type="radio" name="customKitchen" value="no">
-		Without Kitchen
-	  </label>
-	</div>
-
-  </div>
-
-  <button onclick="calculateEstimate()">
-    Calculate Estimation
-  </button>
-
-  <!-- RESULT -->
-
-  <div class="result">
-
-    <h2>Estimation Result</h2>
-
-    <div class="summary-box">
-
-      <p>
-        <strong>Total Sq Ft:</strong>
-        <span id="totalSqft">0</span>
-      </p>
-
-      <p>
-        <strong>Material Cost:</strong>
-        ₹ <span id="materialCost">0</span>
-      </p>
-
-      <p>
-        <strong>Labour Cost:</strong>
-        ₹ <span id="labourCost">0</span>
-      </p>
-
-      <p>
-        <strong>Total Cost:</strong>
-        ₹ <span id="totalCost">0</span>
-      </p>
-
+<main class="app-shell">
+  <header class="topbar">
+    <a class="brand" href="#" aria-label="LiveStyle Interiors home">
+      <span class="brand-mark" aria-hidden="true">L</span>
+      <span class="brand-name">live<span>style</span><small>INTERIORS</small></span>
+    </a>
+    <div class="topbar-meta">
+      <span class="status-dot" aria-hidden="true"></span>
+      <span>SMART HOME ESTIMATOR</span>
+      <span class="visit-badge">VISITS <strong id="visitCount">Loading...</strong></span>
     </div>
+  </header>
 
-    <hr>
+  <section class="hero">
+    <div class="hero-copy">
+      <p class="eyebrow"><span>01</span> DESIGN YOUR SPACE</p>
+      <h1>Your home,<br><span>beautifully considered.</span></h1>
+      <p class="hero-description">Build a thoughtful interior plan and see your project estimate take shape in real time.</p>
+    </div>
+    <div class="hero-orbit" aria-hidden="true">
+      <span class="orbit orbit-one"></span>
+      <span class="orbit orbit-two"></span>
+      <span class="orbit-core"><span>LS</span></span>
+      <span class="orbit-label">DESIGN<br>IN MOTION</span>
+    </div>
+  </section>
 
-    <h2>Calculation Breakdown</h2>
+  <div class="workspace">
+    <section class="config-panel panel" aria-labelledby="configTitle">
+      <div class="panel-heading">
+        <div>
+          <p class="eyebrow">PROJECT SETUP</p>
+          <h2 id="configTitle">Shape your estimate</h2>
+        </div>
+        <span class="step-indicator">STEP <strong>01</strong> / 02</span>
+      </div>
 
-    <div id="calculationBreakdown"></div>
+      <label for="calcType">Estimation type</label>
+      <select id="calcType" onchange="toggleSections()">
+        <option value="default">Preset home scope</option>
+        <option value="custom">Custom dimensions</option>
+      </select>
 
+      <div id="defaultSection" class="section-content">
+        <div class="section-title">
+          <span class="section-number">A</span>
+          <div><h3>Home configuration</h3><p>Choose your home size and finish level.</p></div>
+        </div>
+        <div class="field-grid">
+          <div class="field">
+            <label for="bhkType">Home type</label>
+            <select id="bhkType" onchange="calculateEstimate()">
+              <option value="2">2 BHK</option>
+              <option value="3" selected>3 BHK</option>
+              <option value="4">4 BHK</option>
+              <option value="5">5 BHK</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="defaultMaterial">Quality grade</label>
+            <select id="defaultMaterial" onchange="calculateEstimate()">
+              <option value="Ultra">Ultra · Premium finish</option>
+              <option value="Good" selected>Good · Standard finish</option>
+              <option value="Economy">Economy · Essential finish</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="section-title scope-heading">
+          <span class="section-number">B</span>
+          <div><h3>Included in your scope</h3><p>Select the work you want to plan for.</p></div>
+        </div>
+        <div class="scope-grid">
+          <label class="scope-option"><input type="checkbox" class="scope-item" id="incWardrobes" checked onchange="updateScopeState()"><span class="scope-check"></span><span>Wardrobes &amp; lofts</span></label>
+          <label class="scope-option"><input type="checkbox" class="scope-item" id="incKitchen" checked onchange="updateScopeState()"><span class="scope-check"></span><span>Modular kitchen</span></label>
+          <label class="scope-option"><input type="checkbox" class="scope-item" id="incTVUnit" checked onchange="updateScopeState()"><span class="scope-check"></span><span>TV unit &amp; wall panel</span></label>
+          <label class="scope-option"><input type="checkbox" class="scope-item" id="incPooja" checked onchange="updateScopeState()"><span class="scope-check"></span><span>Pooja unit</span></label>
+          <label class="scope-option"><input type="checkbox" class="scope-item" id="incFalseCeiling" checked onchange="updateScopeState()"><span class="scope-check"></span><span>False ceiling</span></label>
+          <label class="scope-option"><input type="checkbox" class="scope-item" id="incPainting" checked onchange="updateScopeState()"><span class="scope-check"></span><span>Painting &amp; wallpaper</span></label>
+          <label class="scope-option"><input type="checkbox" class="scope-item" id="incElectrical" checked onchange="updateScopeState()"><span class="scope-check"></span><span>Electrical modifications</span></label>
+          <label class="scope-option"><input type="checkbox" class="scope-item" id="incFurniture" checked onchange="updateScopeState()"><span class="scope-check"></span><span>Loose furniture</span></label>
+        </div>
+      </div>
+
+      <div id="customSection" class="hidden section-content">
+        <div class="section-title">
+          <span class="section-number">A</span>
+          <div><h3>Custom woodwork</h3><p>Build your estimate room by room.</p></div>
+        </div>
+        <p class="form-hint">Start by adding the rooms or zones in your home.</p>
+        <label for="roomCount">Number of rooms / zones</label>
+        <div class="inline-field">
+          <input type="number" id="roomCount" min="1" placeholder="e.g. 3">
+          <button class="secondary-button" type="button" onclick="generateRooms()">Generate rooms <span aria-hidden="true">↗</span></button>
+        </div>
+        <div id="roomsContainer"></div>
+        <p class="form-hint">Add the woodwork parts and dimensions for each room.</p>
+        <label for="customMaterial">Material grade</label>
+        <select id="customMaterial" onchange="calculateEstimate()">
+          <option value="Ultra">Ultra · Premium</option>
+          <option value="Good" selected>Good · Standard</option>
+          <option value="Economy">Economy · Essential</option>
+        </select>
+      </div>
+
+      <p id="estimateMessage" class="form-message" role="status" aria-live="polite"></p>
+      <button class="calculate-button" type="button" onclick="calculateEstimate()">
+        <span>Calculate estimate</span><span class="button-arrow" aria-hidden="true">↗</span>
+      </button>
+      <p class="secure-note"><span aria-hidden="true">✦</span> A clear starting point for your dream space</p>
+    </section>
+
+    <section class="result-panel" aria-labelledby="estimateTitle">
+      <div class="result-topline"><span class="live-indicator"></span> LIVE PROJECT ESTIMATE <span class="estimate-mark">LS / 01</span></div>
+      <div class="result-intro">
+        <p class="eyebrow">YOUR PROJECT SNAPSHOT</p>
+        <h2 id="estimateTitle">Estimation summary</h2>
+        <p>Adjust your selections to see your plan update.</p>
+      </div>
+      <div class="summary-box">
+        <div class="metric sqft-metric">
+          <span class="metric-label">TOTAL WOODWORK</span>
+          <div class="metric-value"><span id="totalSqft">0</span><small>sq ft</small></div>
+        </div>
+        <div class="cost-list">
+          <p><span>Material cost</span><strong>₹ <span id="materialCost">0</span></strong></p>
+          <p><span>Labour cost</span><strong>₹ <span id="labourCost">0</span></strong></p>
+        </div>
+        <div class="grand-total">
+          <span>TURNKEY GRAND TOTAL</span>
+          <strong>₹ <span id="totalCost">0</span></strong>
+        </div>
+      </div>
+      <div class="breakdown-section">
+        <div class="breakdown-heading"><h3>Scope breakdown</h3><span>DETAILS</span></div>
+        <div id="calculationBreakdown"></div>
+      </div>
+      <div class="result-footnote"><span aria-hidden="true">✳</span><p>Estimates are indicative and may vary based on final design, materials and site conditions.</p></div>
+    </section>
   </div>
-
-</div>
+  <footer class="page-footer"><span>LIVE<span class="footer-accent">STYLE</span> INTERIORS</span><span>CRAFTING SPACES THAT FEEL LIKE YOU.</span></footer>
+</main>
 
 <script src="app.js"></script>
-
-
 <script>
   if ("serviceWorker" in navigator) {
     navigator.serviceWorker.register("./service-worker.js");
   }
 </script>
+<!-- Cloudflare Web Analytics --><script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "3490f4a7f64343fb980534111ebe0d25"}'></script><!-- End Cloudflare Web Analytics -->
 </body>
 </html>
