@@ -622,7 +622,7 @@ h1,
   gap: 8px;
   margin-top: 7px;
   color: #f1f5ee;
-  font: 600 37px "Manrope", sans-serif;
+  font: 500 20px "Manrope", sans-serif;
   letter-spacing: -1.8px;
 }
 
@@ -665,7 +665,7 @@ h1,
 
 .grand-total > span {
   color: #b0c0a3;
-  font-size: 8px;
+  font-size: 20px;
 }
 
 .grand-total strong {
